@@ -1,6 +1,6 @@
 ﻿namespace CoreProject.Services;
 
-internal interface IDownloaderService
+public interface IDownloaderService
 {
 
 }

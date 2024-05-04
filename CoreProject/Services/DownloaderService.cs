@@ -1,6 +1,6 @@
 ﻿namespace CoreProject.Services;
 
-internal class DownloaderService : IDownloaderService
+public class DownloaderService : IDownloaderService
 {
 
 }

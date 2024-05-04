@@ -1,7 +1,6 @@
 ﻿using CoreProject.ViewModels;
 using CoreProject.Services;
 using MvvmCross;
-using MvvmCross.IoC;
 using MvvmCross.ViewModels;
 
 namespace CoreProject;

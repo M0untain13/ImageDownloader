@@ -5,7 +5,7 @@ using System;
 
 namespace CoreProject.ViewModels;
 
-internal class ImageComponentModel : MvxViewModel
+public class ImageComponentModel : MvxViewModel
 {
 	private string _url;
 	public string Url
