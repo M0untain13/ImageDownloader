@@ -1,0 +1,14 @@
+﻿<views:MvxWindow  
+    x:Class="WpfProject.Views.MainWindow"
+    xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+    xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+    xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+    mc:Ignorable="d"
+    
+    xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
+    Title="ImageDownloader" 
+    MinHeight="300" MinWidth="400"
+    Height="400" Width="600"
+    >
+</views:MvxWindow>
