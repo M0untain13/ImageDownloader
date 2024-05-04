@@ -1,11 +1,11 @@
 ﻿using CoreProject.ViewModels;
+using MvvmCross.Platforms.Wpf.Views;
 using MvvmCross.ViewModels;
-using System.Windows.Controls;
 
 namespace WpfProject.Views;
 
 [MvxViewFor(typeof(ImageComponentModel))]
-public partial class ImageComponent : UserControl
+public partial class ImageComponent : MvxWpfView
 {
     public ImageComponent()
     {

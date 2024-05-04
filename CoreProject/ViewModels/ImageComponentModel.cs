@@ -34,7 +34,7 @@ public class ImageComponentModel : MvxViewModel
         () => {
             return Task.Run(
                 () => {
-
+                    
                 });
         });
     }
