@@ -30,10 +30,22 @@
 			<local:ImageComponent Grid.Column="2" 
                                   DataContext="{Binding Path=Components[2]}"/>
 		</Grid>
-		<Button Grid.Row="1"
+        <Button Grid.Row="1"
 				Content="Start All"
 				Command="{Binding Path=StartAllCommand}"/>
-		<ProgressBar Grid.Row="2"
-                     Value="{Binding Path=Progress, Mode=OneWay}"/>
-	</Grid>
+        <Grid Grid.Row="2">
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition/>
+                <ColumnDefinition Width="3*"/>
+                <ColumnDefinition/>
+            </Grid.ColumnDefinitions>
+            <DockPanel Grid.Column="1">
+                <TextBlock Text="Общий процесс загрузки"
+                           HorizontalAlignment="Center"
+                           DockPanel.Dock="Top"/>
+                <ProgressBar Grid.Column="1"
+                             Value="{Binding Path=Progress, Mode=OneWay}"/>
+            </DockPanel>
+        </Grid>
+    </Grid>
 </views:MvxWpfView>

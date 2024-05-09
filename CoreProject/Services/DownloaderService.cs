@@ -1,6 +1,4 @@
-﻿using System.Net;
-
-namespace CoreProject.Services;
+﻿namespace CoreProject.Services;
 
 public class DownloaderService : IDownloaderService
 {

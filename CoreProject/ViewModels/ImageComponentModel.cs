@@ -1,9 +1,6 @@
 ﻿using CoreProject.Services;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
-using System;
-using System.Diagnostics;
-using System.Threading;
 
 namespace CoreProject.ViewModels;
 

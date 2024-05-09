@@ -21,9 +21,13 @@
         <Grid.Resources>
             <converters:BitmapFrameConverter x:Key="bfconverter"/>
         </Grid.Resources>
-        
-        <Image Grid.Row="0"
-               Source="{Binding Path=LocalPath, Converter={StaticResource bfconverter}}"/>
+
+        <Border BorderThickness="1"
+                BorderBrush="Black"
+                Margin="10,5,10,5">
+            <Image Grid.Row="0"
+                    Source="{Binding Path=LocalPath, Converter={StaticResource bfconverter}}"/>
+        </Border>
         <TextBox Grid.Row="1"
                  Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <Button Grid.Row="2" 
