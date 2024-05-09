@@ -11,6 +11,8 @@ public class ImageComponentModel : MvxViewModel
 {
     public int Id { get; private set; }
 
+    private readonly string _imageDir;
+
 	private string _url;
 	public string Url
 	{
@@ -42,9 +44,10 @@ public class ImageComponentModel : MvxViewModel
 	{
         Id = id;
         Url = string.Empty;
-        LocalPath = "no_image.jpg";
+        _imageDir = "images";
+        LocalPath = @$"{_imageDir}\no_image.jpg";
         _cancellationTokenSource = new CancellationTokenSource();
-
+        
 
         StartDownloadCommand = new MvxAsyncCommand(
 		() => {
@@ -55,7 +58,9 @@ public class ImageComponentModel : MvxViewModel
 
                     try
                     {
-                        downloaderService.DownloadImage(Url, localProgress, _cancellationTokenSource.Token);
+                        var imageName = @$"{_imageDir}\image{Id+1}.jpg";
+                        downloaderService.DownloadImage(Url, imageName, localProgress, _cancellationTokenSource.Token);
+                        LocalPath = imageName;
                     }
                     catch (OperationCanceledException)
                     {

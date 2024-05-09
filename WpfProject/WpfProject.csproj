@@ -18,7 +18,7 @@
   </ItemGroup>
 
   <Target Name="PostBuild" AfterTargets="PostBuildEvent">
-    <Exec Command="copy $(SolutionDir)CoreProject\no_image.jpg $(TargetDir)\no_image.jpg" />
+    <Exec Command="copy $(SolutionDir)CoreProject\no_image.jpg $(TargetDir)\images\no_image.jpg" />
   </Target>
 
 </Project>
