@@ -2,5 +2,5 @@
 
 public interface IDownloaderService
 {
-    void DownloadImage(string url, string uploadPath, IProgress<int> progress, CancellationToken cancellationToken);
+    bool DownloadImage(string url, string uploadPath, IProgress<int> progress, CancellationToken cancellationToken);
 }

@@ -34,7 +34,7 @@ public class ImageComponentModel : MvxViewModel
         set => SetProperty(ref _localProgress, value);
     }
 
-    private CancellationTokenSource _cancellationTokenSource;
+    private CancellationTokenSource? _cancellationTokenSource;
 
     public IMvxAsyncCommand StartDownloadCommand { get; }
 
@@ -46,25 +46,26 @@ public class ImageComponentModel : MvxViewModel
         Url = string.Empty;
         _imageDir = "images";
         LocalPath = @$"{_imageDir}\no_image.jpg";
-        _cancellationTokenSource = new CancellationTokenSource();
-        
 
         StartDownloadCommand = new MvxAsyncCommand(
 		() => {
 			return Task.Run(
 				() => {
-
+                    _cancellationTokenSource = new CancellationTokenSource();
+                    LocalPath = @$"{_imageDir}\no_image.jpg";
+                    LocalProgress = 0;
                     var localProgress = new Progress<int>(p => LocalProgress = p);
 
-                    try
+                    var imageName = @$"{_imageDir}\image{Id + 1}.jpg";
+
+                    if(downloaderService.DownloadImage(Url, imageName, localProgress, _cancellationTokenSource.Token))
                     {
-                        var imageName = @$"{_imageDir}\image{Id+1}.jpg";
-                        downloaderService.DownloadImage(Url, imageName, localProgress, _cancellationTokenSource.Token);
                         LocalPath = imageName;
                     }
-                    catch (OperationCanceledException)
+                    else
                     {
-                        // TODO: Надо обрабатывать нажатие кнопки СТОП
+                        LocalPath = @$"{_imageDir}\no_image.jpg";
+                        LocalProgress = 0;
                     }
                 });
 		});
@@ -73,7 +74,7 @@ public class ImageComponentModel : MvxViewModel
         () => {
             return Task.Run(
                 () => {
-                    _cancellationTokenSource.Cancel();
+                    _cancellationTokenSource?.Cancel();
                 });
         });
     }
