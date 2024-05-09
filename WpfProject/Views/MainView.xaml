@@ -6,7 +6,7 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
 	xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
 	xmlns:viewModels="clr-namespace:CoreProject.ViewModels;assembly=CoreProject"
-    xmlns:local="clr-namespace:WpfProject.Views"
+	xmlns:local="clr-namespace:WpfProject.Views"
 	mc:Ignorable="d" 
 	d:DataContext="{d:DesignInstance viewModels:MainViewModel}"
 	d:DesignHeight="600" d:DesignWidth="500"
@@ -17,22 +17,23 @@
 			<RowDefinition/>
 			<RowDefinition/>
 		</Grid.RowDefinitions>
-        <ListBox Grid.Row="0"
-				 ItemsSource="{Binding Path=Components}">
-            <ListBox.ItemsPanel>
-                <ItemsPanelTemplate>
-                    <WrapPanel IsItemsHost="True" />
-                </ItemsPanelTemplate>
-            </ListBox.ItemsPanel>
-            <ListBox.ItemTemplate>
-                <DataTemplate>
-                    <local:ImageComponent/>
-                </DataTemplate>
-            </ListBox.ItemTemplate>
-        </ListBox>
+		<Grid>
+			<Grid.ColumnDefinitions>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+				<ColumnDefinition/>
+			</Grid.ColumnDefinitions>
+			<local:ImageComponent Grid.Column="0"
+                                  DataContext="{Binding Path=Components[0]}"/>
+			<local:ImageComponent Grid.Column="1" 
+                                  DataContext="{Binding Path=Components[1]}"/>
+			<local:ImageComponent Grid.Column="2" 
+                                  DataContext="{Binding Path=Components[2]}"/>
+		</Grid>
 		<Button Grid.Row="1"
 				Content="Start All"
-                Command="{Binding Path=StartAllCommand}"/>
-		<ProgressBar Grid.Row="2"/>
+				Command="{Binding Path=StartAllCommand}"/>
+		<ProgressBar Grid.Row="2"
+                     Value="{Binding Path=Progress, Mode=OneWay}"/>
 	</Grid>
 </views:MvxWpfView>

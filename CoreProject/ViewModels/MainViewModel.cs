@@ -14,16 +14,34 @@ public class MainViewModel : MvxViewModel
 		set => SetProperty(ref _components, value);
 	}
 
-    public IMvxAsyncCommand StartAllCommand { get; }
+	private int[] _progress;
+	public int Progress
+	{
+		get
+		{
+			var sum = 0;
+			foreach (var progress in _progress)
+			{
+				sum += progress;
+            }
+			return sum/3;
+		}
+    }
+
+	public IMvxAsyncCommand StartAllCommand { get; }
 
 	public MainViewModel()
 	{
-		_components = new ImageComponentModel[3];
-		for(var i = 0; i < 3; i++)
+		_progress = new int[3];
+        Components = new ImageComponentModel[3];
+
+
+        for (var i = 0; i < 3; i++)
 		{
 			Mvx.IoCProvider.TryResolve<IDownloaderService>(out var downloaderService);
-            _components[i] = new ImageComponentModel(downloaderService);
-        }
+			Components[i] = new ImageComponentModel(downloaderService, i);
+            Components[i].PropertyChanged += MainViewModel_PropertyChanged;
+		}
 
 		StartAllCommand = new MvxAsyncCommand(
 		() => {
@@ -36,4 +54,16 @@ public class MainViewModel : MvxViewModel
 				});
 		});
 	}
+
+    private void MainViewModel_PropertyChanged(object? sender, System.ComponentModel.PropertyChangedEventArgs e)
+    {
+		if (sender is not ImageComponentModel component)
+			return;
+
+        if(e.PropertyName == "LocalProgress")
+		{
+			_progress[component.Id] = component.LocalProgress;
+			RaisePropertyChanged(nameof(Progress));
+        }
+    }
 }

@@ -17,4 +17,8 @@
     <ProjectReference Include="..\CoreProject\CoreProject.csproj" />
   </ItemGroup>
 
+  <Target Name="PostBuild" AfterTargets="PostBuildEvent">
+    <Exec Command="copy $(SolutionDir)CoreProject\no_image.jpg $(TargetDir)\no_image.jpg" />
+  </Target>
+
 </Project>

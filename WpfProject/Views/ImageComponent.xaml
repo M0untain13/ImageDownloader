@@ -6,21 +6,26 @@
 	xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
     xmlns:views="clr-namespace:MvvmCross.Platforms.Wpf.Views;assembly=MvvmCross.Platforms.Wpf"
     xmlns:viewModels="clr-namespace:CoreProject.ViewModels;assembly=CoreProject"
+    xmlns:converters="clr-namespace:WpfProject.Converters"
 	mc:Ignorable="d" 
     d:DataContext="{d:DesignInstance viewModels:ImageComponentModel}"
 	d:DesignHeight="600" d:DesignWidth="300"
 	>
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition/>
+            <RowDefinition Height="4*"/>
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
         </Grid.RowDefinitions>
+        <Grid.Resources>
+            <converters:BitmapFrameConverter x:Key="bfconverter"/>
+        </Grid.Resources>
         
-        <Image Grid.Row="0"/>
+        <Image Grid.Row="0"
+               Source="{Binding Path=LocalPath, Converter={StaticResource bfconverter}}"/>
         <TextBox Grid.Row="1"
-                 Text="{Binding Path=Url}"/>
+                 Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
         <Button Grid.Row="2" 
                 Content="Start"
                 Command="{Binding Path=StartDownloadCommand}"/>
