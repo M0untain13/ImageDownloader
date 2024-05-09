@@ -31,6 +31,13 @@ public class ImageComponentModel : MvxViewModel
         set => SetProperty(ref _localProgress, value);
     }
 
+    private string _status;
+    public string Status
+    {
+        get => _status;
+        set => SetProperty(ref _status, value);
+    }
+
     private CancellationTokenSource? _cancellationTokenSource;
 
     public IMvxAsyncCommand StartDownloadCommand { get; }
@@ -43,11 +50,13 @@ public class ImageComponentModel : MvxViewModel
         Url = string.Empty;
         _imageDir = "images";
         LocalPath = @$"{_imageDir}\no_image.jpg";
+        Status = "Status";
 
         StartDownloadCommand = new MvxAsyncCommand(
 		() => {
 			return Task.Run(
 				() => {
+                    Status = "Started";
                     _cancellationTokenSource = new CancellationTokenSource();
                     LocalPath = @$"{_imageDir}\no_image.jpg";
                     LocalProgress = 0;
@@ -57,10 +66,12 @@ public class ImageComponentModel : MvxViewModel
 
                     if(downloaderService.DownloadImage(Url, imageName, localProgress, _cancellationTokenSource.Token))
                     {
+                        Status = "Done";
                         LocalPath = imageName;
                     }
                     else
                     {
+                        Status = $"Error: {downloaderService.GetErrorMessage()}";
                         LocalPath = @$"{_imageDir}\no_image.jpg";
                         LocalProgress = 0;
                     }
@@ -71,6 +82,7 @@ public class ImageComponentModel : MvxViewModel
         () => {
             return Task.Run(
                 () => {
+                    Status = "Stopped";
                     _cancellationTokenSource?.Cancel();
                 });
         });

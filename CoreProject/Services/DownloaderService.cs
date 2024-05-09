@@ -2,6 +2,8 @@
 
 public class DownloaderService : IDownloaderService
 {
+    private string _errorMessage = string.Empty;
+
     public bool DownloadImage(string url, string uploadPath, IProgress<int> progress, CancellationToken cancellationToken)
     {
         return DownloadImageAsync(url, uploadPath, progress, cancellationToken).Result;
@@ -9,6 +11,7 @@ public class DownloaderService : IDownloaderService
 
     public async Task<bool> DownloadImageAsync(string url, string uploadPath, IProgress<int> progress, CancellationToken cancellationToken)
     {
+        _errorMessage = string.Empty;
         using var client = new HttpClient();
 
         try
@@ -35,9 +38,12 @@ public class DownloaderService : IDownloaderService
 
             return true;
         }
-        catch
+        catch (Exception e)
         {
+            _errorMessage = e.Message;
             return false;
         }
     }
+
+    public string GetErrorMessage() => _errorMessage;
 }

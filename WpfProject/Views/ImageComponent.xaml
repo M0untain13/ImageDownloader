@@ -14,6 +14,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Height="4*"/>
+            <RowDefinition />
             <RowDefinition/>
             <RowDefinition/>
             <RowDefinition/>
@@ -22,18 +23,28 @@
             <converters:BitmapFrameConverter x:Key="bfconverter"/>
         </Grid.Resources>
 
-        <Border BorderThickness="1"
+        <Border Grid.Row="0" 
+                BorderThickness="1"
                 BorderBrush="Black"
                 Margin="10,5,10,5">
-            <Image Grid.Row="0"
-                    Source="{Binding Path=LocalPath, Converter={StaticResource bfconverter}}"/>
+            <Image Source="{Binding Path=LocalPath, Converter={StaticResource bfconverter}}"/>
         </Border>
-        <TextBox Grid.Row="1"
+        <Border Grid.Row="1" 
+                BorderThickness="1"
+                BorderBrush="Black"
+                Margin="10,5,10,5">
+            <TextBlock Text="{Binding Path=Status}"
+                       HorizontalAlignment="Center"
+                       VerticalAlignment="Center"
+                       FontSize="10"
+                       TextWrapping="Wrap"/>
+        </Border>
+        <TextBox Grid.Row="2"
                  Text="{Binding Path=Url, UpdateSourceTrigger=PropertyChanged, Mode=TwoWay}"/>
-        <Button Grid.Row="2" 
+        <Button Grid.Row="3" 
                 Content="Start"
                 Command="{Binding Path=StartDownloadCommand}"/>
-        <Button Grid.Row="3"
+        <Button Grid.Row="4"
                 Content="Stop"
                 Command="{Binding Path=StopDownloadCommand}"/>
     </Grid>

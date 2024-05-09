@@ -2,6 +2,7 @@
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
+using System.Linq;
 
 namespace CoreProject.ViewModels;
 
@@ -47,8 +48,10 @@ public class MainViewModel : MvxViewModel
 		() => {
 			return Task.Run(
 				() => {
+					var listOfTasks = new List<Task>();
 					foreach (var component in _components)
 					{
+						component.StopDownloadCommand.Execute();
 						component.StartDownloadCommand.Execute();
 					}
 				});
