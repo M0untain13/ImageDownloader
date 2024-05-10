@@ -2,7 +2,6 @@
 using MvvmCross;
 using MvvmCross.Commands;
 using MvvmCross.ViewModels;
-using System.Linq;
 
 namespace CoreProject.ViewModels;
 
@@ -15,18 +14,40 @@ public class MainViewModel : MvxViewModel
 		set => SetProperty(ref _components, value);
 	}
 
+	private bool[] _isStarted;
 	private int[] _progress;
 	public int Progress
 	{
 		get
 		{
 			var sum = 0;
-			foreach (var progress in _progress)
+			var count = 0;
+			for(var i = 0; i < 3; i++)
 			{
-				sum += progress;
+				if (_isStarted[i])
+				{
+					count++;
+					sum += _progress[i];
+				}
+			}
+
+            if (count != 0)
+			{
+                if (sum / count == 100)
+                {
+                    for (var i = 0; i < 3; i++)
+                    {
+                        _isStarted[i] = false;
+                    }
+					sum = 0;
+                }
+                return sum / count;
             }
-			return sum/3;
-		}
+			else
+			{
+                return 0;
+            }
+        }
     }
 
 	public IMvxAsyncCommand StartAllCommand { get; }
@@ -34,6 +55,7 @@ public class MainViewModel : MvxViewModel
 	public MainViewModel()
 	{
 		_progress = new int[3];
+		_isStarted = new bool[3];
         Components = new ImageComponentModel[3];
 
 
@@ -63,10 +85,23 @@ public class MainViewModel : MvxViewModel
 		if (sender is not ImageComponentModel component)
 			return;
 
-        if(e.PropertyName == "LocalProgress")
+		if (e.PropertyName == "LocalProgress")
 		{
-			_progress[component.Id] = component.LocalProgress;
+			var index = component.Id;
+			var progress = component.LocalProgress;
+
+			if (!_isStarted[index] && progress > 0 && progress < 100)
+				_isStarted[index] = true;
+
+            _progress[index] = progress;
 			RaisePropertyChanged(nameof(Progress));
         }
+		else if(e.PropertyName == "CancellationTokenSource")
+		{
+			if (component.CancellationTokenSource.IsCancellationRequested)
+			{
+				_isStarted[component.Id] = false;
+			}
+		}
     }
 }
