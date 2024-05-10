@@ -28,6 +28,11 @@ public class DownloaderService : IDownloaderService
             long totalBytesRead = 0;
             var contentLength = response.Content.Headers.ContentLength;
 
+            if(contentLength is null)
+            {
+                throw new Exception("The byte length could not be obtained.");
+            }
+
             while ((bytesRead = await stream.ReadAsync(buffer, 0, buffer.Length, cancellationToken)) > 0)
             {
                 await fileStream.WriteAsync(buffer, 0, bytesRead, cancellationToken);
